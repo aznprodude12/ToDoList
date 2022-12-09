@@ -46,30 +46,85 @@ function App() {
           setToDo(newTask);
      }
 
+     // Cancel update
+     const cancelUpdate = () => {
+          setUpdateData('')
+     }
+
+     // Change task for update
+     const changeTask = (e) => {
+          let newEntry = {
+               id: updateData.id,
+               title: e.target.value,
+               status: updateData.status
+          }
+
+          setUpdateData(newEntry);
+     }
+
+     // Update task
+     const updateTask = () => {
+          let filterRecords = [...toDo].filter( task => task.id !== updateData.id );
+          let updatedObject = [...filterRecords, updateData];
+
+          setToDo(updatedObject);
+          setUpdateData('');
+     }
+
      return (
           <div className="container App">
               <br /><br />
               <h2>To Do List App (ReactJS)</h2>
               <br /><br />
 
-              { /* Add Task */}
-              <div className='row'>
-                   <div className='col'>
-                        <input
-                             className="form-control form-control-lg"
-                             onChange={(e) => setNewTask(e.target.value)}
-                             value={newTask}
-                        />
-                   </div>
-                   <div className='col-auto'>
-                        <button
-                             className="btn btn-lg btn-success"
-                             onClick={addTask}
-                        >
-                             Add Task
-                        </button>
-                   </div>
-              </div>
+              { updateData && updateData ? (
+                   <>
+                        { /* Update Task */ }
+                        <div className='row'>
+                             <div className='col'>
+                                  <input
+                                       className="form-control form-control-lg"
+                                       value={ updateData && updateData.title }
+                                       onChange={(e) => changeTask(e)}/>
+                             </div>
+                             <div className='col-auto'>
+                                  <button
+                                       className="btn btn-lg btn-success mr-20"
+                                       onClick={updateTask}
+                                  >
+                                       Update
+                                  </button>
+                                  <button
+                                       className="btn btn-lg btn-warning"
+                                       onClick={cancelUpdate}
+                                  >
+                                       Cancel
+                                  </button>
+                             </div>
+                        </div>
+                   </>
+              ) : (
+                   <>
+                        { /* Add New Task */ }
+                        <div className='row'>
+                             <div className='col'>
+                                  <input
+                                       className="form-control form-control-lg"
+                                       onChange={(e) => setNewTask(e.target.value)}
+                                       value={newTask}
+                                  />
+                             </div>
+                             <div className='col-auto'>
+                                  <button
+                                       className="btn btn-lg btn-success"
+                                       onClick={addTask}
+                                  >
+                                       Add Task
+                                  </button>
+                             </div>
+                        </div>
+                   </>
+              )}
 
               { /* Display ToDos */ }
 
@@ -90,7 +145,7 @@ function App() {
                                             <FontAwesomeIcon icon={faCircleCheck} />
                                        </span>
                                        { task.status ? null : (
-                                            <span title="Edit">
+                                            <span title="Edit" onClick={() => setUpdateData(task)}>
                                                  <FontAwesomeIcon icon={faPen} />
                                             </span>
                                        )}
