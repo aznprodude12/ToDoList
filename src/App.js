@@ -16,11 +16,41 @@ function App() {
      const [ newTask, setNewTask ] = useState('');
      const [ updateData, setUpdateData ] = useState('');
 
+     // Add task
+     const addTask = () => {
+          if (newTask) {
+               let num = toDo.length + 1;
+               let newEntry = { id: num, title: newTask, status: false };
+
+               setToDo([...toDo, newEntry]);
+               setNewTask('');
+          }
+     }
+
      return (
           <div className="container App">
               <br /><br />
               <h2>To Do List App (ReactJS)</h2>
               <br /><br />
+
+              { /* Add Task */}
+              <div className='row'>
+                   <div className='col'>
+                        <input
+                             className="form-control form-control-lg"
+                             onChange={(e) => setNewTask(e.target.value)}
+                             value={newTask}
+                        />
+                   </div>
+                   <div className='col-auto'>
+                        <button
+                             className="btn btn-lg btn-success"
+                             onClick={addTask}
+                        >
+                             Add Task
+                        </button>
+                   </div>
+              </div>
 
               { /* Display ToDos */ }
 

@@ -7,6 +7,10 @@ body {
      text-align: center;
 }
 
+.row {
+     margin-bottom: 20px;
+}
+
 .taskBg {
      background-color: #555;
      border-radius: 6px;
