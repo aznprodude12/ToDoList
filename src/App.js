@@ -31,7 +31,19 @@ function App() {
      const deleteTask = (id) => {
           let newTasks = toDo.filter( task => task.id !== id )
 
-          setToDo(newTasks)
+          setToDo(newTasks);
+     }
+
+     // Set task as done
+     const setDone = (id) => {
+          let newTask = toDo.map( task => {
+               if (task.id === id) {
+                    return ({ ...task, status: !task.status })
+               }
+               return task;
+          })
+
+          setToDo(newTask);
      }
 
      return (
@@ -74,12 +86,14 @@ function App() {
                                        <span className="taskText">{task.title}</span>
                                   </div>
                                   <div className='iconsWrap'>
-                                       <span title="Completed / Not Completed">
+                                       <span title="Completed / Not Completed" onClick={() => setDone(task.id)}>
                                             <FontAwesomeIcon icon={faCircleCheck} />
                                        </span>
-                                       <span title="Edit">
-                                            <FontAwesomeIcon icon={faPen} />
-                                       </span>
+                                       { task.status ? null : (
+                                            <span title="Edit">
+                                                 <FontAwesomeIcon icon={faPen} />
+                                            </span>
+                                       )}
                                        <span title="Delete" onClick={() => deleteTask(task.id)}>
                                             <FontAwesomeIcon icon={faTrashCan} />
                                        </span>
